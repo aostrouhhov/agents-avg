@@ -11,6 +11,7 @@ public class MyAgent extends Agent {
     public Double number;
     public String[] linkedAgents;
     public HashMap<String, Double> magicTable = new HashMap<>();
+    public Integer msgReceivedCounter=0;
 
     // Describe connections between Agents in this Class just for simplicity
     // In production environment these connections can be obtained differently by Agent
@@ -36,6 +37,7 @@ public class MyAgent extends Agent {
 
         // Start the algorithm
         this.magicTable.put(this.id.toString(), this.number);
+        this.doWait(500);
         addBehaviour(new MyAgentBehaviour(this, 500));
     }
 }

@@ -8,7 +8,7 @@ We need to count an average of all Agents' numbers. Each Agent has its own 'magi
 3. Look at the received message: ID and Number.
 	* If magicTable contains this ID then do nothing.
 	* If magicTable doesn't contain this ID then put received ID and Number there and send these ID and Number as a message to connected Agents.
-4. Execute steps 2 and 3 for 30 times.
+4. Execute step 2 until magicTable contains 5 records.
 
 # Build and Run
 

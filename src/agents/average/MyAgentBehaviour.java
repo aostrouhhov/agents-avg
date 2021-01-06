@@ -14,7 +14,7 @@ public class MyAgentBehaviour extends TickerBehaviour {
     }
 
     @Override
-    protected void onTick() {
+    public final void onStart() {
         MyAgent currentAgent = this.agent;
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 
@@ -25,10 +25,17 @@ public class MyAgentBehaviour extends TickerBehaviour {
             msg.addReceiver(destination);
         }
         currentAgent.send(msg);
+    }
+
+    @Override
+    protected void onTick() {
+        MyAgent currentAgent = this.agent;
+        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 
         // Look if there is received message in the stack
         ACLMessage receivedMsg = currentAgent.receive();
         if (receivedMsg != null) {
+            currentAgent.msgReceivedCounter++;
             String[] receivedContent = receivedMsg.getContent().split("___");
             String receivedId = receivedContent[0];
             Double receivedNumber = Double.parseDouble(receivedContent[1]);
@@ -47,8 +54,8 @@ public class MyAgentBehaviour extends TickerBehaviour {
             }
         }
 
-        // After 30 ticks (times) count an average and stop this behaviour
-        if (getTickCount() == 30) {
+        // We have received all numbers
+        if (currentAgent.magicTable.size() == 5) {
             countAvg();
             currentAgent.doDelete();
             this.stop();
@@ -64,8 +71,8 @@ public class MyAgentBehaviour extends TickerBehaviour {
 
         double avg = sum / currentAgent.magicTable.size();
         System.out.println("----" + "\n" +
-                "Agent #" + currentAgent.id + "\n" +
-                "Avg: " + avg + "\n" +
-                "Agent's magicTable: " + currentAgent.magicTable);
+                "Agent #" + currentAgent.id  +
+                " counted Avg: " + avg + "\n" +
+                " received messages: " + currentAgent.msgReceivedCounter);
     }
 }
